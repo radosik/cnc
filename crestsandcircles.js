@@ -1,7 +1,8 @@
-const field = [];
+let field = [];
 let step = true;
 let end = true;
 const size = 3;
+let win = {end: false, who: true};
 
 const init = (size) => {
 
@@ -25,22 +26,33 @@ const init = (size) => {
         root.appendChild(row);
         field.push(arr_row);
     }   
+    win = {end: false, who: true};
+
     return field;
 
 }
 
 const draw = (obj,symbol = true) => {
-    let symbolClass;   
-    if(symbol) {
-        symbolClass  = "crest";
-    } else {
-        symbolClass = "zero";
+    if(win.end === false) {
+        let symbolClass; 
+        const x = obj.getAttribute('col');
+        const y = obj.getAttribute('row');  
+        if(symbol) {
+            symbolClass  = "crest";
+            field[x][y] = 1;
+        } else {
+            symbolClass = "zero";
+            field[x][y] = -1;
+        }
+        obj.classList.add(symbolClass);
+        console.log(field);
+        check();
+ 
     }
-    obj.classList.add(symbolClass);
 }
 
 document.getElementById('start').onclick = function(event) {
-    init(size);
+    field = init(size);
 }
 
 
@@ -61,7 +73,78 @@ document.getElementById('root').onclick = function(event) {
     }
 }
 
-let win = size;
+console.log(field);
 
+let check = () => {
+    for(let i = 0;i < 3;i++) {
+        let s = 0;
+        for(let j = 0;j < 3;j++) {
+            s = s + field[j][i];
+        }
+        console.log(s);
+        if(s == 3) {
+            win.end = true;
+            win.who = true;
+        } else if (s == -3) {
+            win.end = true;
+            win.who = false;
+        }
+    }
+
+    for(let i = 0;i < 3;i++) {
+        let s = 0;
+        for(let j = 0;j < 3;j++) {
+            s = s + field[i][j];
+        }
+        console.log(s);
+        if(s == 3) {
+            win.end = true;
+            win.who = true;
+        } else if (s == -3) {
+            win.end = true;
+            win.who = false;
+        }
+    }
+
+    let j = 2;
+    let s = 0;
+
+    for(let i = 0;i < 3;i++) {
+        s = s + field[i][j];
+        j--;
+        if(s == 3) {
+            win.end = true;
+            win.who = true;
+        } else if (s == -3) {
+            win.end = true;
+            win.who = false;
+        }        
+    }
+
+    j = 0;
+    s = 0;
+
+    for(let i = 0;i < 3;i++) {
+        s = s + field[i][j];
+        j++;
+        if(s == 3) {
+            win.end = true;
+            win.who = true;
+        } else if (s == -3) {
+            win.end = true;
+            win.who = false;
+        }        
+    }
+    if (win.end) {
+
+        const cong = document.getElementById("cong");
+        if(win.who) {
+            cong.innerHTML = "Крестики победили!";           
+        } else {
+            cong.innerHTML = "Нолики победили!";
+        }
+    }
+    console.log(win);
+}
 
 
