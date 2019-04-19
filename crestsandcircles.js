@@ -68,12 +68,21 @@ document.getElementById('root').onclick = function(event) {
             } else {
                 step = true;    
             }
-        }
-        console.log(step);             
+        }            
     }
 }
 
-console.log(field);
+const checkEnd = (s) => {
+    if(s == 3) {
+        win.end = true;
+        win.who = true;
+    } else if (s == -3) {
+        win.end = true;
+        win.who = false;
+    }
+}
+
+const loop = () => {}
 
 let check = () => {
     for(let i = 0;i < 3;i++) {
@@ -81,14 +90,7 @@ let check = () => {
         for(let j = 0;j < 3;j++) {
             s = s + field[j][i];
         }
-        console.log(s);
-        if(s == 3) {
-            win.end = true;
-            win.who = true;
-        } else if (s == -3) {
-            win.end = true;
-            win.who = false;
-        }
+        checkEnd(s);
     }
 
     for(let i = 0;i < 3;i++) {
@@ -96,14 +98,7 @@ let check = () => {
         for(let j = 0;j < 3;j++) {
             s = s + field[i][j];
         }
-        console.log(s);
-        if(s == 3) {
-            win.end = true;
-            win.who = true;
-        } else if (s == -3) {
-            win.end = true;
-            win.who = false;
-        }
+        checkEnd(s);
     }
 
     let j = 2;
@@ -112,13 +107,7 @@ let check = () => {
     for(let i = 0;i < 3;i++) {
         s = s + field[i][j];
         j--;
-        if(s == 3) {
-            win.end = true;
-            win.who = true;
-        } else if (s == -3) {
-            win.end = true;
-            win.who = false;
-        }        
+        checkEnd(s);
     }
 
     j = 0;
@@ -127,13 +116,7 @@ let check = () => {
     for(let i = 0;i < 3;i++) {
         s = s + field[i][j];
         j++;
-        if(s == 3) {
-            win.end = true;
-            win.who = true;
-        } else if (s == -3) {
-            win.end = true;
-            win.who = false;
-        }        
+        checkEnd(s);
     }
     if (win.end) {
 
@@ -144,7 +127,6 @@ let check = () => {
             cong.innerHTML = "Нолики победили!";
         }
     }
-    console.log(win);
 }
 
 
